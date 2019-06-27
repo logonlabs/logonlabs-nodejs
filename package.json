@@ -1,0 +1,33 @@
+{
+  "name": "logonlabs-nodejs",
+  "version": "1.0.0",
+  "description": "LogonLabs Node.js SDK",
+  "main": "lib/logonlabs.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://hleelogonlabs@bitbucket.org/logonlabs/logon-sdk-nodejs.git"
+  },
+  "authors": [
+    {
+      "name": "Howie Lee",
+      "email": "hlee@logonlabs.com"
+    }
+  ],
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/logonlabs/logon-sdk-nodejs#readme",
+  "dependencies": {
+    "atob": "^2.1.2",
+    "axios": "^0.19.0",
+    "btoa": "^1.2.1",
+    "crypto-js": "^3.1.9-1",
+    "querystring": "^0.2.0",
+    "url": "^0.11.0"
+  },
+  "devDependencies": {
+    "mocha": "^6.1.4",
+    "should": "^13.2.3"
+  }
+}
