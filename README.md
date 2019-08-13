@@ -12,15 +12,15 @@ npm install logonlabs-nodejs --save
 ## LogonLabs API
 
 
-- Prior to coding, some configuration is required at https://logonlabs.com/app/#/app-settings.
+- Prior to coding, some configuration is required at https://app.logonlabs.com/app/#/app-settings.
 
-- For the full Developer Documentation please visit: https://logonlabs.com/docs/api/
+- For the full Developer Documentation please visit: https://app,logonlabs.com/docs/api/
 
 ---
 ### Instantiating a new client
 
-- Your `APP_ID` can be found in [App Settings](https://logonlabs.com/app/#/app-settings)
-- `APP_SECRETS` are configured [here](https://logonlabs.com/app/#/app-secrets)
+- Your `APP_ID` can be found in [App Settings](https://app.logonlabs.com/app/#/app-settings)
+- `APP_SECRETS` are configured [here](https://app.logonlabs.com/app/#/app-secrets)
 - The `LOGONLABS_API_ENDPOINT` should be set to `https://api.logonlabs.com`
 
 Create a new instance from `LogonClient`.  
@@ -80,7 +80,7 @@ client.startLogin({
     console.log(response.url);
 });
 ```
-The `response.url` property returned should be redirected to by the application.  Upon submitting their credentials, users will be redirected to the `callback_url` set within the application settings at https://logonlabs.com/app/#/app-settings.
+The `response.url` property returned should be redirected to by the application.  Upon submitting their credentials, users will be redirected to the `callback_url` set within the application settings at https://app.logonlabs.com/app/#/app-settings.
 
 
 #### Step 2 - validateLogin
