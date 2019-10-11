@@ -14,7 +14,7 @@ npm install logonlabs-nodejs --save
 
 - Prior to coding, some configuration is required at https://app.logonlabs.com/app/#/app-settings.
 
-- For the full Developer Documentation please visit: https://app,logonlabs.com/api/
+- For the full Developer Documentation please visit: https://app.logonlabs.com/api/
 
 ---
 ### Instantiating a new client
@@ -61,21 +61,21 @@ if(response.isEventSuccess()) {
 ### Node.js Only Workflow
 The following workflow is required if you're using a Node.js that handles both the front and back ends.  If this does not apply to you, please refer to the SSO Login QuickStart section.
 #### Step 1 - startLogin
-This call begins the LogonLabs managed SSO process.  The `client_data` property is optional and is used to pass any data that is required after validating the request.  The `client_encryption_key` property is optionally passed if the application requires encrypting any data that is passed between the front and back end infrastructure. The `tags`property is an ArrayList of type Tag which is a simple object representing a key/value pair.
+This call begins the LogonLabs managed SSO process.  The `client_data` property is optional and is used to pass any data that is required after validating the request. The `tags`property is an ArrayList of type Tag which is a simple object representing a key/value pair.
 
 ```javascript
 const client = require('logonlabs-nodejs')('APP_ID', 'APP_SECRETS', 'LOGONLABS_API_ENDPOINT');
 
 //optional parameters
 let  client_data = "{\"ClientData\":\"Value\"}";
-let client_encryption_key = "qbTRzCvUju";
 //
 
 client.startLogin({
     identity_provider: client.IdentityProviders.GOOGLE,
     email_address: 'your_email_address@domain.com',
     client_data: client_data,
-    client_encryption_key: client_encryption_key
+    callback_url: callback_url,
+    destination_url: destination_url
 }).then((response) => {
     console.log(response.url);
 });
@@ -157,8 +157,8 @@ If an email address is passed to the method, it will return the list of provider
 const client = require('logonlabs-nodejs')('APP_ID', 'APP_SECRETS', 'LOGONLABS_API_ENDPOINT');
 
 client.getProviders('your_email_address@domain.com').then((response) => {
-    for(let i = 0; i < response.identity_providers.length; i++) {
-        let provider = response.identity_providers[i];
+    for(let i = 0; i < response.social_identity_providers.length; i++) {
+        let provider = response.social_identity_providers[i];
         if (provider.type == client.IdentityProviders.GOOGLE) {
             //make google available in UI or handle other custom rules
         }
@@ -166,20 +166,6 @@ client.getProviders('your_email_address@domain.com').then((response) => {
 });
 ```
 
-#### Encrypt/Decrypt
-The Java SDK has built in methods for encrypting/decrypting strings using AES encryption.  Use a value for your encryption key that only your client/server will know. 
-```java
-const client = require('logonlabs-nodejs')('APP_ID', 'APP_SECRETS', 'LOGONLABS_API_ENDPOINT');
-
-let base_string = "string to be encrypted";
-let encryption_key = "qbTRzCvUju";
-//we also has encryption key phrase generator
-//let encryption_key = client.keygen();
-
-let encrypted_string = client.encrypt(encryption_key, base_string);
-
-let decrypted_string = client.decrypt(encryption_key, encrypted_string);
-```
 
 #### ParseToken
 This method parses out the value of the token query parameter returned with your callback url.
