@@ -48,12 +48,11 @@ let token = client.parseToken(callback_url);
 
 let response = client.validateLogin(token);
 
-let eventId = response.get('event_id'); //can be used to update the SSO event later via updateEvent
-
 //can also call response.isCallSuccess to check if it is a valid response
 if(response.isEventSuccess()) {
-    //authentication and validation succeeded. proceed with post-auth workflows for your system
-    
+   
+   //authentication and validation succeeded. proceed with post-auth workflows for your system
+
 }
 
 ```
@@ -86,7 +85,7 @@ The `response.url` property returned should be redirected to by the application.
 #### Step 2 - validateLogin
 This method is used to validate the results of the login attempt.  `token` corresponds to the query parameter with the name `token` appended to the callback url specified for your app.
 
-The response contains all details of the login and the user has now completed the SSO workflow.  If there is any additional information to add, updateEvent can be called on the `event_id` returned.
+The response contains all details of the login and the user has now completed the SSO workflow.
 
 ```javascript
 const client = require('logonlabs-nodejs')('APP_ID', 'APP_SECRETS', 'LOGONLABS_API_ENDPOINT');
@@ -97,16 +96,11 @@ let token = client.parseToken(callback_url);
 
 let response = client.validateLogin(token);
 
-let eventId = response.get('event_id'); //can be used to update the SSO event later via updateEvent
-
 //can also call response.isCallSuccess to check if it is a valid response
 if(response.isEventSuccess()) {
     //authentication and validation succeeded. proceed with post-auth workflows for your system
 } else {
-    if (response.isFail('validation_details', 'auth_validation')) {
-        //authentication with identity provider failed
-    }
-    if (response.isFail('validation_details', 'email_match_validation')) {
+    if (response.isFail('validation_details', 'domain_validation')) {
         //email didn't match the one provided to startLogin
     }
     if (response.isFail('validation_details', 'ip_validation') ||
@@ -118,7 +112,7 @@ if(response.isEventSuccess()) {
 ```
 ---
 ### Events
-The createEvent method allows one to create events that are outside of our SSO workflows.  updateEvent can be used to update any events made either by createEvent or by our SSO login.
+The createEvent method allows one to create events that are outside of our SSO workflows.
 ```javascript
 const client = require('logonlabs-nodejs')('APP_ID', 'APP_SECRETS', 'LOGONLABS_API_ENDPOINT');
 
@@ -132,18 +126,6 @@ const sendEvent = async function() {
         last_name: 'Lastname',
         ip_address: '0.0.0.0',
         user_agent: 'Client/UserAgent'
-    });
-    let event_id = create_response.get('event_id');
-    
-    let update_response = await client.updateEvent({
-        event_id: event_id,
-        local_validation: client.Event.Validation.FAIL,
-        tags: [
-            {
-                'key': 'failure-field',
-                'value': 'detailed reason for failure'
-            }
-        ]
     });
 };
 ```
@@ -165,7 +147,6 @@ client.getProviders('your_email_address@domain.com').then((response) => {
     }
 });
 ```
-
 
 #### ParseToken
 This method parses out the value of the token query parameter returned with your callback url.
